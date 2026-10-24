@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  ollama:
+    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama:/root/.ollama
+    command: serve
+
+  ecgso-api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - ECGSO_SECRET=ECGSO_SOVEREIGN_ROOT_SECRET_2026
+      - OLLAMA_URL=http://ollama:11434
+      - LLAMA_STACK_URL=http://llama-stack:8321
+    depends_on:
+      - ollama
+
+volumes:
+  ollama:
