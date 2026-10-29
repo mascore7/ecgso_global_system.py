@@ -1,0 +1,18 @@
+"""Command-line entry point."""
+
+from __future__ import annotations
+
+import argparse
+import json
+
+from ecgso import __version__, health
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(prog="ecgso")
+    parser.add_argument("--version", action="version", version=__version__)
+    parser.add_argument("command", nargs="?", choices=["health"], default="health")
+    args = parser.parse_args(argv)
+    if args.command == "health":
+        print(json.dumps(health()))
+    return 0
