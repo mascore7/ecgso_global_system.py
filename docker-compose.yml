@@ -1,0 +1,21 @@
+services:
+  ollama:
+    image: ollama/ollama:latest
+    volumes:
+      - ollama:/root/.ollama
+    command: serve
+    restart: unless-stopped
+
+  ecgso-api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      ECGSO_SECRET: ${ECGSO_SECRET:?Set ECGSO_SECRET in .env}
+      OLLAMA_HOST: http://ollama:11434
+    depends_on:
+      - ollama
+    restart: unless-stopped
+
+volumes:
+  ollama:
