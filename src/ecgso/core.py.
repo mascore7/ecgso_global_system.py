@@ -1,0 +1,19 @@
+"""Core primitives for ECGSO."""
+
+from __future__ import annotations
+
+from dataclasses import dataclass
+
+
+@dataclass(frozen=True, slots=True)
+class Settings:
+    """Immutable runtime settings."""
+
+    name: str = "ecgso"
+    environment: str = "development"
+
+
+def health(settings: Settings | None = None) -> dict[str, str]:
+    """Return a minimal health report."""
+    s = settings or Settings()
+    return {"status": "ok", "name": s.name, "environment": s.environment}
