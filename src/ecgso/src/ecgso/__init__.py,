@@ -1,6 +1,0 @@
-"""ECGSO Global System core package."""
-
-from ecgso.core import Settings, health
-
-__version__ = "0.1.0"
-__all__ = ["Settings", "__version__", "health"]
