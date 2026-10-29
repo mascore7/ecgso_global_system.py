@@ -1,0 +1,19 @@
+import json
+
+import pytest
+
+from ecgso import Settings, health
+from ecgso.cli import main
+
+
+def test_health_default() -> None:
+    assert health()["status"] == "ok"
+
+
+def test_health_custom_environment() -> None:
+    assert health(Settings(environment="production"))["environment"] == "production"
+
+
+def test_cli_health(capsys: pytest.CaptureFixture[str]) -> None:
+    assert main(["health"]) == 0
+    assert json.loads(capsys.readouterr().out)["status"] == "ok"
